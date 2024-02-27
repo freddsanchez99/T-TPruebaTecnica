@@ -1,0 +1,16 @@
+.form-container {
+  display: flex;
+}
+
+.form-column {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__container{
+  width: 500px;
+}

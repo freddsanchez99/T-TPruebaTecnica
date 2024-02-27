@@ -1,0 +1,91 @@
+<h1 mat-dialog-title>{{ data ? "Editar Usuario" : "Crear Usuario" }}</h1>
+<div mat-dialog-content style="width: 500px">
+  <form [formGroup]="userForm" class="form-container">
+    <div class="form-column">
+      <mat-form-field>
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="usuario" placeholder="Usuario" />
+        <mat-error *ngIf="userForm.get('usuario')?.invalid"
+          >El usuario es requerido</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Primer Nombre</mat-label>
+        <input
+          matInput
+          formControlName="primerNombre"
+          placeholder="Primer Nombre"
+        />
+        <mat-error *ngIf="userForm.get('primerNombre')?.invalid"
+          >El primer nombre es requerido</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Primer Apellido</mat-label>
+        <input
+          matInput
+          formControlName="primerApellido"
+          placeholder="Primer Apellido"
+        />
+        <mat-error *ngIf="userForm.get('primerApellido')?.invalid"
+          >El primer apellido es requerido</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Departamento</mat-label>
+        <mat-select formControlName="departamento" placeholder="Departamento">
+          <mat-option
+            *ngFor="let department of departments"
+            [value]="department.id"
+          >
+            {{ department.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.get('departamento')?.invalid"
+          >El departamento es requerido</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <div class="form-column">
+      <mat-form-field>
+        <mat-label>Segundo Nombre</mat-label>
+        <input
+          matInput
+          formControlName="segundoNombre"
+          placeholder="Segundo Nombre"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Segundo Apellido</mat-label>
+        <input
+          matInput
+          formControlName="segundoApellido"
+          placeholder="Segundo Apellido"
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Cargo</mat-label>
+        <mat-select formControlName="cargo" placeholder="Cargo">
+          <mat-option *ngFor="let cargo of cargos" [value]="cargo.id">
+            {{ cargo.nombre }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.get('cargo')?.invalid"
+          >El cargo es requerido</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancelar</button>
+  <button mat-button (click)="onSave()" [disabled]="userForm.invalid">
+    Guardar
+  </button>
+</div>
