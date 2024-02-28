@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UserModalComponent } from '../user-modal/user-modal.component';
-import { DepartamentoService } from '../departamento.service';
-import { CargoService } from '../cargo.service';
+import { DepartamentoService } from '../../services/departamento.service';
+import { CargoService } from '../../services/cargo.service';
 import { Cargo, Departamento } from '../user/user.class';
+import { SharedService } from 'src/services/shared.service';
 
 @Component({
   selector: 'app-header',
@@ -13,8 +14,11 @@ import { Cargo, Departamento } from '../user/user.class';
 export class HeaderComponent {
   cargos: Cargo[] = [];
   departamentos: Departamento[] = [];
+  departamentoSeleccionado: string = "";
+  cargoSeleccionado: string = "";
 
-  constructor(private departamentoService: DepartamentoService, private cargoService: CargoService, private dialog: MatDialog) { }
+  constructor(private departamentoService: DepartamentoService, private cargoService: CargoService,
+    private sharedService: SharedService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.obtenerCargos();
@@ -39,6 +43,18 @@ export class HeaderComponent {
       },
       error => console.error('Error al obtener los departamentos:', error)
     );
+  }
+
+  seleccionarDepartamento(departamento: string): void {
+    this.departamentoSeleccionado = departamento;
+    console.log(this.departamentoSeleccionado);
+    this.sharedService.actualizarDepartamentoSeleccionado(this.departamentoSeleccionado);
+  }
+
+  seleccionarCargo(cargo: string): void {
+    this.cargoSeleccionado = cargo;
+    console.log(this.cargoSeleccionado);
+    this.sharedService.actualizarCargoSeleccionado(this.cargoSeleccionado);
   }
 
   openDialog(): void {

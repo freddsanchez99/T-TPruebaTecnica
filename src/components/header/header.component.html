@@ -1,0 +1,24 @@
+<div style="padding: 2%;">
+  <h2>Modulo de Administracion</h2>
+  <h1>Administracion de Usuarios</h1>
+</div>
+<div style="display: flex; justify-content: space-around; align-items: center;">
+  <div>
+    <mat-select [(ngModel)]="departamentoSeleccionado" placeholder="Selecciona un departamento" (selectionChange)="seleccionarDepartamento($event.value)">
+      <mat-option *ngFor="let departamento of departamentos" [value]="departamento.codigo">
+        {{departamento.nombre}}
+      </mat-option>
+    </mat-select>
+  </div>
+  <div>
+    <mat-select [(ngModel)]="cargoSeleccionado" placeholder="Selecciona un cargo" (selectionChange)="seleccionarCargo($event.value)">
+      <mat-option *ngFor="let cargo of cargos" [value]="cargo.codigo">
+        {{cargo.nombre}}
+      </mat-option>
+    </mat-select>
+  </div>
+  <div class="select-container">
+    <button mat-button (click)="openDialog()">Registrar Usuario</button>
+  </div>
+</div>
+

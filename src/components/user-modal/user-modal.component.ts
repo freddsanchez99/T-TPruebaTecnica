@@ -1,9 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../user.service';
-import { DepartamentoService } from '../departamento.service';
-import { CargoService } from '../cargo.service';
+import { UserService } from '../../services/user.service';
+import { DepartamentoService } from '../../services/departamento.service';
+import { CargoService } from '../../services/cargo.service';
 import { Departamento, Cargo, User } from '../user/user.class';
 
 @Component({
@@ -22,16 +22,17 @@ export class UserModalComponent {
     private departamentoService: DepartamentoService,
     private cargoService: CargoService,
     public dialogRef: MatDialogRef<UserModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: User | null
+    @Inject(MAT_DIALOG_DATA) public data: any | null
   ) {
     this.userForm = this.fb.group({
+      id: [data ? data.id : ''],
       usuario: [data ? data.usuario : '', Validators.required],
       primerNombre: [data ? data.primerNombre : '', Validators.required],
       segundoNombre: [data ? data.segundoNombre : ''],
       primerApellido: [data ? data.primerApellido : '', Validators.required],
       segundoApellido: [data ? data.segundoApellido : ''],
-      departamento: [data ? data.departamento : null, Validators.required],
-      cargo: [data ? data.cargo : null, Validators.required]
+      departamento: [data && data.departamento ? data.departamento.id : null, Validators.required],
+      cargo: [data && data.cargo ? data.cargo.id : null, Validators.required]
     });
 
     // Obtener departamentos y cargos del servicio
@@ -41,8 +42,7 @@ export class UserModalComponent {
 
   onSave(): void {
     if (this.userForm.valid) {
-      const userData: User = {
-        id: this.data ? this.data.id : 0,
+      const userData: any = {
         usuario: this.userForm.value.usuario,
         primerNombre: this.userForm.value.primerNombre,
         segundoNombre: this.userForm.value.segundoNombre,
@@ -57,10 +57,10 @@ export class UserModalComponent {
       // Lógica para guardar o actualizar el usuario en el servicio
       // this.userService.saveOrUpdateUser(userData).subscribe(...);
       if (this.data?.isEditing != null && this.data?.isEditing){
-        this.userService.editarUsuario(this.data.id, this.data).subscribe(
+        this.userService.editarUsuario(userData).subscribe(
           (response) => {
             console.log('Usuario actualizado:', response);
-            // Aquí puedes agregar lógica adicional después de actualizar el usuario
+            window.location.reload();
           },
           (error) => {
             console.error('Error al actualizar usuario:', error);

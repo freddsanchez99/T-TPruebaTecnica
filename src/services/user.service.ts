@@ -16,8 +16,8 @@ export class UserService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  eliminarUsuario(id: number): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
+  eliminarUsuario(usuario: string): Observable<any> {
+    const url = `${this.apiUrl}/${usuario}`;
     return this.http.delete(url);
   }
 
@@ -25,9 +25,19 @@ export class UserService {
     return this.http.post(this.apiUrl, usuario);
   }
 
-  editarUsuario(id: number, usuario: any): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
+  editarUsuario(usuario: any): Observable<any> {
+    const url = `${this.apiUrl}`;
     return this.http.put(url, usuario);
+  }
+
+  getUsuariosByDepartamento(codigoDepartamento: string): Observable<any[]> {
+    const url = `${this.apiUrl}/ByDepartamento/${codigoDepartamento}`;
+    return this.http.get<any[]>(url);
+  }
+
+  getUsuariosByCargo(codigoCargo: string): Observable<any[]> {
+    const url = `${this.apiUrl}/ByCargo/${codigoCargo}`;
+    return this.http.get<any[]>(url);
   }
 
 }
